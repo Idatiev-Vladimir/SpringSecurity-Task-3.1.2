@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit User</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+    }
+
+    h3 {
+      color: #333;
+    }
+
+    form {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      margin: 0 auto;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+
+    input[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+<h3>Edit User</h3>
+<br>
+<form th:method="POST" th:action="@{/admin/update}" th:object="${user}">
+  <p><label for="id">User id: </label>
+    <input type="number" th:field="*{id}" id="id"/></p>
+
+  <p><label for="username">Enter username: </label>
+    <input type="text" th:field="*{username}" id="username"/></p>
+
+  <p><label for="password">Enter password: </label>
+    <input type="password" th:field="*{password}" id="password"/></p>
+
+<!--  <p><label for="role">Select role: </label>-->
+<!--    <input type="checkbox" th:each="role : ${allRoles}" id="role"-->
+<!--           th:field="*{getRoles}" th:checked="${user != null && user.getRoles != null and user.getRoles.contains(role)}"-->
+<!--           th:text="${role.name()}"/></p>-->
+
+  <p><label for="name">Enter name: </label>
+    <input type="text" th:field="*{name}" id="name"/></p>
+  <p><label for="surname">Enter surname: </label>
+    <input type="text" th:field="*{surname}" id="surname"/></p>
+  <p><label for="age">Enter age: </label>
+    <input type="number" th:field="*{age}" id="age"/></p>
+  <p><label for="sex">Enter sex: </label>
+    <input type="text" th:field="*{sex}" id="sex"/></p>
+  <p><label for="location">Location: </label>
+    <input type="text" th:field="*{location}" id="location"/></p>
+  <p><label for="salary">Salary: </label>
+    <input type="number" th:field="*{salary}" id="salary"/></p>
+  <p><label for="height">Height: </label>
+    <input type="number" th:field="*{height}" id="height"/></p>
+  <br>
+  <input type="submit" value="Update!">
+</form>
+</body>
+</html>

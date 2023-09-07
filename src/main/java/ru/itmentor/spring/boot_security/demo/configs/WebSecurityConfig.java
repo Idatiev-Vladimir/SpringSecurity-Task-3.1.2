@@ -10,15 +10,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.csrf.CsrfFilter;
-import org.springframework.web.filter.CharacterEncodingFilter;
 import ru.itmentor.spring.boot_security.demo.dao.UserDao;
-import ru.itmentor.spring.boot_security.demo.model.Role;
 import ru.itmentor.spring.boot_security.demo.model.User;
 import ru.itmentor.spring.boot_security.demo.security.SuccessUserHandler;
 
 import java.util.Collection;
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -40,11 +36,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        CharacterEncodingFilter filter = new CharacterEncodingFilter();
-//        filter.setEncoding("UTF-8");
-//        filter.setForceEncoding(true);
-//        http.addFilterBefore(filter, CsrfFilter.class);
-
         http
                 .authorizeRequests()
                 .antMatchers("/admin/*").hasRole("ADMIN")

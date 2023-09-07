@@ -10,8 +10,6 @@ public enum Role implements GrantedAuthority {
 
     ROLE_USER ("ROLE_USER");
 
-//    ROLE_GUEST ("ROLE_GUEST");
-
     private final String authority;
     @Override
     public String getAuthority() {

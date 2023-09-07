@@ -2,6 +2,7 @@ package ru.itmentor.spring.boot_security.demo.dao;
 
 
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import ru.itmentor.spring.boot_security.demo.model.Role;
 import ru.itmentor.spring.boot_security.demo.model.User;
 
@@ -24,4 +25,5 @@ public interface UserDao  {
     User getUserByUsername(String username);
 
     List<Role> getRoleByUsername(String username);
+
 }

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Table of Users</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      height: 100vh;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 80%;
+      margin: 20px auto;
+      background-color: #fff;
+      border: 1px solid #ddd;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #333;
+      color: #fff;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    tr:hover {
+      background-color: #ddd;
+    }
+
+    caption {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+
+    form {
+      display: inline;
+      margin-right: 5px;
+    }
+
+  </style>
+</head>
+<body>
+<table>
+  <caption>
+    <h1>Table for users</h1>
+  </caption>
+  <tr>
+    <th>Id</th>
+    <th>Username</th>
+    <th>Password</th>
+    <th>Role</th>
+    <th>Name</th>
+    <th>Surname</th>
+    <th>Age</th>
+    <th>Sex</th>
+    <th>Location</th>
+    <th>Salary</th>
+    <th>Height</th>
+    <th></th>
+    <th></th>
+  </tr>
+  <tr th:each ="user : ${Users}">
+    <td th:utext="${user.getId()}"></td>
+    <td th:utext="${user.getUsername()}"></td>
+<!--    <td th:utext="${user.getRoles()}"></td>-->
+    <td th:utext="${user.getName()}"></td>
+    <td th:utext="${user.getSurname()}"></td>
+    <td th:utext="${user.getAge()}"></td>
+    <td th:utext="${user.getSex()}"></td>
+    <td th:utext="${user.getLocation()}"></td>
+    <td th:utext="${user.getSalary()}"></td>
+    <td th:utext="${user.getHeight()}"></td>
+    <td><form th:method="UPDATE" th:action="@{/admin/edit/{id}(id=${user.getId()})}">
+      <input type="submit" value="Edit"/>
+    </form></td>
+    <td><form th:method="DELETE" th:action="@{/admin/delete/{id}(id=${user.getId()})}">
+      <input type="submit" value="Delete"/>
+    </form></td>
+  </tr>
+</table>
+<div style="text-align: center;">
+  <form th:method="GET" th:action="@{/admin/new}" style="display: inline-block;">
+    <button type="submit" class="btn btn-primary">Add New User</button>
+  </form>
+
+  <form th:action="@{/logout}" style="display: inline-block;">
+    <button type="submit" class="btn btn-danger">Logout!!!</button>
+  </form>
+</div>
+<!--<li><a th:href="@{/logout}" style="text-align: center">Logout</a></li>-->
+
+</body>
+</html>

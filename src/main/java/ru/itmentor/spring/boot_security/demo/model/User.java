@@ -1,5 +1,6 @@
 package ru.itmentor.spring.boot_security.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,22 +9,28 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
-@Getter @Setter @NoArgsConstructor @ToString
+
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username")
+    @Column
     private String username;
 
-    @Column(name = "password")
+    @Column
     private String password;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
@@ -32,42 +39,41 @@ public class User implements UserDetails {
     private Set<Role> roles;
 
     @Column
-    private String name;
-
-    @Column
-    private String surname;
+    private String fullName;
 
     @Column
     private int age;
 
     @Column
-    private String sex;
+    @Email
+    private String email;
 
     @Column
-    private String location;
+    private LocalDateTime created_at;
 
     @Column
-    private short salary;
+    private LocalDateTime updated_at;
 
-    @Column
-    private float height;
 
     public User(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
-    public User(String name, String surname, int age, String sex, String location, short salary, float height) {
-        this.name = name;
-        this.surname = surname;
+    public User(Long id, String username, String password, Set<Role> roles,
+                String fullName, int age, String email, LocalDateTime created_at) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+        this.fullName = fullName;
         this.age = age;
-        this.sex = sex;
-        this.location = location;
-        this.salary = salary;
-        this.height = height;
+        this.email = email;
+        this.created_at = created_at;
     }
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
     }
@@ -83,21 +89,25 @@ public class User implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return true;
     }

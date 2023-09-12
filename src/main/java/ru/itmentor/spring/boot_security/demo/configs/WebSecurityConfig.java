@@ -10,9 +10,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import ru.itmentor.spring.boot_security.demo.dao.UserDao;
+import ru.itmentor.spring.boot_security.demo.dao.UserDAO;
 import ru.itmentor.spring.boot_security.demo.model.User;
-import ru.itmentor.spring.boot_security.demo.security.SuccessUserHandler;
 
 import java.util.Collection;
 
@@ -20,12 +19,9 @@ import java.util.Collection;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final SuccessUserHandler successUserHandler;
+    private final UserDAO userDao;
 
-    private final UserDao userDao;
-
-    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserDao userDao) {
-        this.successUserHandler = successUserHandler;
+    public WebSecurityConfig(UserDAO userDao) {
         this.userDao = userDao;
     }
 
@@ -38,18 +34,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/admin/*").hasRole("ADMIN")
-                .antMatchers().hasAnyRole("USER", "ADMIN")
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .successHandler(successUserHandler)
-                .permitAll()
+                .csrf().disable()
+                .httpBasic()
                 .and()
                 .logout()
                 .permitAll();
     }
-
     @Bean
     @Override
     public UserDetailsService userDetailsService() {
@@ -58,7 +52,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
             if (user != null) {
                 Collection<? extends GrantedAuthority> roleList = user.getAuthorities();
-//                        userDao.getRoleByUsername(username);
 
                 return new org.springframework.security.core.userdetails.User
                         (user.getUsername(), user.getPassword(), roleList);
